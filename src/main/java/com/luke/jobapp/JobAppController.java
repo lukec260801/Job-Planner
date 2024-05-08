@@ -1,5 +1,8 @@
 package com.luke.jobapp;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
@@ -16,15 +19,22 @@ public class JobAppController {
     private TextField local;
     @FXML
     private DatePicker date;
+    ObservableList<String> jobs = FXCollections.observableArrayList();
     @FXML
-    private ListView<Job> listView;
-
+    private ListView<String> listView = new ListView<>(jobs);
 
     @FXML
     protected void submit() {
         Job newJob = new Job(title.getText(), company.getText(), date.getValue(), status.getText(), local.getText());
 
-        System.out.println(newJob);
-        listView.getItems().add(newJob);
+        System.out.println(newJob.getJobTitle());
+        jobs.add(0, newJob.getJobTitle());
+
+        listView.refresh();
+
+        title.clear();
+        company.clear();
+        status.clear();
+        local.clear();
     }
 }
