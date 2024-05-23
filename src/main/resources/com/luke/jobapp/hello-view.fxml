@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.DatePicker?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.luke.jobapp.JobAppController">
+<VBox alignment="CENTER" prefHeight="489.0" prefWidth="429.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.luke.jobapp.JobAppController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label text="Jobs"/>
+    <Label text="Jobs" />
 
     <GridPane alignment="center" hgap="5" vgap="5">
-        <Label text="Job Title:" GridPane.columnIndex="0" GridPane.rowIndex="0"/><TextField fx:id="title" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <Label text="Company Name:" GridPane.columnIndex="0" GridPane.rowIndex="1"/><TextField fx:id="company" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Label text="Date Applied:" GridPane.columnIndex="0" GridPane.rowIndex="2"/><DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="3"/><TextField fx:id="status" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-        <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="4"/><TextField fx:id="local" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="Job Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" /><TextField fx:id="title" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label text="Company Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" /><TextField fx:id="company" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="Date Applied:" GridPane.columnIndex="0" GridPane.rowIndex="2" /><DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="3" /><TextField fx:id="status" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="4" /><TextField fx:id="local" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
-
-    <ListView fx:id="listView" minHeight="30">
-
-    </ListView>
-    <Button text="Submit" onAction="#submit"/>
+   <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
+     <columns>
+       <TableColumn fx:id="colTitle" prefWidth="75.0" text="Job Title" />
+       <TableColumn fx:id="colCompany" prefWidth="75.0" text="Company" />
+         <TableColumn fx:id="colDate" prefWidth="75.0" text="Date Apllied" />
+         <TableColumn fx:id="colStatus" prefWidth="75.0" text="Status" />
+         <TableColumn fx:id="colLocation" prefWidth="75.0" text="Location" />
+     </columns>
+   </TableView>
+    <Button onAction="#submit" text="Submit" />
 </VBox>
