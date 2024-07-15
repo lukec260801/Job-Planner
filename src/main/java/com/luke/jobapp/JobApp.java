@@ -9,10 +9,10 @@ import java.io.IOException;
 
 public class JobApp extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(JobApp.class.getResource("hello-view.fxml"));
+    public void start(Stage stage) throws IOException, ClassNotFoundException {
+        database.createDatabase();
+        FXMLLoader fxmlLoader = new FXMLLoader(JobApp.class.getResource("jobs-app.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 500, 768);
-        stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
     }
