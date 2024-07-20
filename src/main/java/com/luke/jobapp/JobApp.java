@@ -12,7 +12,8 @@ public class JobApp extends Application {
     public void start(Stage stage) throws IOException, ClassNotFoundException {
         database.createDatabase();
         FXMLLoader fxmlLoader = new FXMLLoader(JobApp.class.getResource("jobs-app.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 768);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 800);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

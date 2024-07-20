@@ -1,17 +1,13 @@
 package com.luke.jobapp;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.*;
 import java.sql.*;
-import java.util.Date;
 
 public class JobAppController {
     @FXML
@@ -32,16 +28,18 @@ public class JobAppController {
     @FXML
     private TableColumn<Job, String> colCompany;
     @FXML
-    private TableColumn<Job, Date> colDate;
+    private TableColumn<Job, String> colDate;
     @FXML
     private TableColumn<Job, String> colStatus;
     @FXML
     private TableColumn<Job, String> colLocation;
+    @FXML
+    private TableColumn<Job, Job> colRemove;
     private static final String URL = "jdbc:sqlite:jobs.db";
 
     @FXML
     protected void submit() {
-        Job newJob = new Job(title.getText(), company.getText(), date.getValue(), status.getText(), local.getText());
+        Job newJob = new Job(title.getText(), company.getText(), date.getValue().toString(), status.getText(), local.getText());
 
         jobs.add(newJob);
         addJob(newJob);
@@ -52,8 +50,6 @@ public class JobAppController {
         company.clear();
         status.clear();
         local.clear();
-
-        System.out.println(jobs);
     }
 
     public void addJob(Job job) {
@@ -71,14 +67,41 @@ public class JobAppController {
         }
     }
 
+    public void removeJob(Job job) {
+        String sql = "DELETE FROM jobs WHERE jobTitle = ?";
+        try(Connection conn = DriverManager.getConnection(URL);
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, job.getJobTitle());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
-    protected void initialize() throws IOException {
+    protected void initialize() {
         colTitle.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         colCompany.setCellValueFactory(new PropertyValueFactory<>("company"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("dateApplied"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         colLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        colRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        colRemove.setCellFactory(_ -> new TableCell<>() {
+            private final Button remove = new Button("Remove");
+
+            @Override
+            protected void updateItem(Job job, boolean empty) {
+                super.updateItem(job, empty);
+                if (job == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(remove);
+                remove.setOnAction(_ -> jobs.remove(job));
+                removeJob(job);
+            }
+        });
 
         jobs = getAllJobApplications();
 
@@ -96,7 +119,7 @@ public class JobAppController {
                 job.setId(rs.getInt("id"));
                 job.setJobTitle(rs.getString("jobTitle"));
                 job.setCompany(rs.getString("company"));
-                job.setDateApplied(rs.getDate("dateApplied").toLocalDate());
+                job.setDateApplied(rs.getString("dateApplied"));
                 job.setStatus(rs.getString("status"));
                 job.setLocation(rs.getString("location"));
                 jobs.add(job);

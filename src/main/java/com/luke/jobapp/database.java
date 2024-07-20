@@ -11,11 +11,11 @@ public class database {
             if (conn != null) {
                 String sql = "CREATE TABLE IF NOT EXISTS jobs (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "jobTitle VARCHAR NOT NULL, " +
-                        "company VARCHAR NOT NULL, " +
-                        "dateApplied DATE NOT NULL, " +
+                        "jobTitle TEXT NOT NULL, " +
+                        "company TEXT NOT NULL, " +
+                        "dateApplied TEXT NOT NULL, " +
                         "status TEXT, " +
-                        "location VARCHAR NOT NULL)";
+                        "location TEXT NOT NULL)";
                 Statement stmt = conn.createStatement();
                 stmt.execute(sql);
             }

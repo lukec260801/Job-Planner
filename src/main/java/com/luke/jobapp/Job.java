@@ -1,17 +1,16 @@
 package com.luke.jobapp;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 public class Job implements Serializable {
     private int id;
     String jobTitle;
     String company;
-    LocalDate dateApplied;
+    String dateApplied;
     String status;
     String location;
 
-    public Job(String job, String company, LocalDate datApplied, String status, String location) {
+    public Job(String job, String company, String datApplied, String status, String location) {
         this.jobTitle = job;
         this.company = company;
         this.dateApplied = datApplied;
@@ -30,7 +29,7 @@ public class Job implements Serializable {
     public String getCompany() {
         return company;
     }
-    public LocalDate getDateApplied() {
+    public String getDateApplied() {
         return dateApplied;
     }
     public String getStatus() {
@@ -50,7 +49,7 @@ public class Job implements Serializable {
     public void setCompany(String company) {
         this.company = company;
     }
-    public void setDateApplied(LocalDate dateApplied) {
+    public void setDateApplied(String dateApplied) {
         this.dateApplied = dateApplied;
     }
     public void setStatus(String status) {

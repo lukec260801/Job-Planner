@@ -1,0 +1,6 @@
+.root{
+    -fx-font-size: 16pt;
+    -fx-font-family: "cursive";
+    -fx-base: rgb(55, 168, 235);
+    -fx-background: rgb(52, 52, 235);
+}
