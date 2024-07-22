@@ -98,8 +98,10 @@ public class JobAppController {
                     return;
                 }
                 setGraphic(remove);
-                remove.setOnAction(_ -> jobs.remove(job));
-                removeJob(job);
+                remove.setOnAction(_ -> {
+                    jobs.remove(job);
+                    removeJob(job);
+                });
             }
         });
 
