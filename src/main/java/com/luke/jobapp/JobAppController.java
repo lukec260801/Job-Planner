@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.sql.*;
 
@@ -85,6 +86,15 @@ public class JobAppController {
         colCompany.setCellValueFactory(new PropertyValueFactory<>("company"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("dateApplied"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        colStatus.setOnEditCommit(
+                (TableColumn.CellEditEvent<Job, String> t) -> {
+                    Job job = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    job.setStatus(t.getNewValue());
+                    changeStatus(job.getId(), t.getNewValue());
+                }
+        );
+
         colLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
         colRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         colRemove.setCellFactory(_ -> new TableCell<>() {
@@ -130,5 +140,17 @@ public class JobAppController {
             e.printStackTrace();
         }
         return jobs;
+    }
+
+    public void changeStatus(int id, String status) {
+        String sql = "UPDATE jobs SET status = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(URL);
+        PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, status);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
