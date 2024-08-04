@@ -68,11 +68,11 @@ public class JobAppController {
         }
     }
 
-    public void removeJob(Job job) {
-        String sql = "DELETE FROM jobs WHERE jobTitle = ?";
+    public void removeJob(int id) {
+        String sql = "DELETE FROM jobs WHERE int = ?";
         try(Connection conn = DriverManager.getConnection(URL);
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, job.getJobTitle());
+            pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class JobAppController {
                 setGraphic(remove);
                 remove.setOnAction(_ -> {
                     jobs.remove(job);
-                    removeJob(job);
+                    removeJob(job.getId());
                 });
             }
         });
